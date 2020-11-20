@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}OptimalCost{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1></h1>
+    <script src="./js/index.js"></script>
+</div>
+
+    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+        <button id="add-row"type="button" class="btn btn-secondary">增加</button>
+        <button id="remove-row" type="button" class="btn btn-secondary">减少</button>
+    </div>
+    
+    <div class="input-group mt-2">
+        <div class="input-group-prepend">
+          <span class="input-group-text">物料</span>
+        </div>
+        <input type="text" aria-label="First name" class="form-control" placeholder="规格（mm）">
+        <input type="text" aria-label="Last name" class="form-control" placeholder="价格（x.00）">
+    </div>
+    <div class="input-group mt-2">
+        <div class="input-group-prepend">
+          <span class="input-group-text">物料</span>
+        </div>
+        <input type="text" aria-label="First name" class="form-control" placeholder="规格（mm）">
+        <input type="text" aria-label="Last name" class="form-control" placeholder="价格（x.00）">
+    </div>
+    <div class="input-group mt-2">
+        <div class="input-group-prepend">
+          <span class="input-group-text">物料</span>
+        </div>
+        <input type="text" aria-label="First name" class="form-control" placeholder="规格（mm）">
+        <input type="text" aria-label="Last name" class="form-control" placeholder="价格（x.00）">
+    </div>
+
+{% endblock %}
+
