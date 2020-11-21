@@ -4,11 +4,12 @@ from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from config import config
+from .core import optimalCost
 
 bootstrap = Bootstrap()
 moment = Moment()
 db = SQLAlchemy()
-
+oc = optimalCost()
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 
@@ -16,6 +17,7 @@ login_manager.login_view = 'auth.login'
 def create_app(config_name):
     app = Flask(__name__, static_url_path='')
     app.config.from_object(config[config_name])
+    app.config.setdefault('BOOTSTRAP_SERVE_LOCAL', True)
     config[config_name].init_app(app)
 
     bootstrap.init_app(app)

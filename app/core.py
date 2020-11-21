@@ -15,31 +15,24 @@ class optimalCost:
     
     #计算组合
     def compose(self):
-
-        self.materiel = {2:5.1, 3:6.2, 1:3.7, 6:8.9}
+        #self.materiel = {2:5.1, 3:6.2, 1:3.7, 6:8.9}
         self.specList = self.makeSpecList()
-
         #用于存储所有组合
         allGroup = []
-
         #符合条件的组合
         goodGroup = []
-
         #最大层数+1才可以使range(2,maxNum)正确迭代
         maxNum = self.layerScope[1] + 1
         minNum = self.layerScope[0]
-
         #生成所有组合
         for i in range(minNum,maxNum):
             allGroup = allGroup + list(itertools.combinations(self.specList, i))
-        
         #计算符合条件的组合
         for item in allGroup:
             if sum(item) == self.tarLand:
                 goodGroup.append(item)
         #去除重复
         goodGroup = list(set(goodGroup))
-        
         return goodGroup
     
     #获取最优组合列表
@@ -51,18 +44,11 @@ class optimalCost:
             #临时存储费用
             cost = []
             for item in group:
-                cost.append(self.materiel[item])
-            
-            #print('组合:', group, '成本：', round(sum(cost),2))
-            
+                cost.append(self.materiel[item])            
             costGroup[group] = (round(sum(cost),2))
-        
-        #(costGroup)
-        #print(len(costGroup))
-
         #排序
         costGroup = sorted(costGroup.items(), key=operator.itemgetter(1))
-        #print(costGroup)
+        return costGroup
 
 
         
@@ -70,19 +56,11 @@ class optimalCost:
     
     #生成规格数组用于计算组合
     def makeSpecList(self):
-
         oneList = []
         twoList = []
-
         for item in self.materiel:
             oneList.append(item)
         #根据规格个数横向复制相应倍数，确保组合中没有疏漏
         for i in range(0, len(oneList)):
             twoList = twoList + oneList
         return twoList
-    
-
-'''
-oc = optimalCost()
-oc.optimalGroup()
-'''
