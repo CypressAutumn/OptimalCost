@@ -22,14 +22,27 @@ $(document).ready(function(){
         var group_json = {}
         var spec_list = []
         var cost_list = []
+        //存储参数
+        var c_list = []
         $('#spec-container').children().each(function(index){
             var spec = $(this).find('input').eq(0).val();
             var cost = $(this).find('input').eq(1).val();
             spec_list.push(spec);
             cost_list.push(cost);
         });
+        //获取参数设置
+        var tarland = $('#tarland').val();
+        var minmax = $('#minmax').val();
+        var error = $('#error').val();
+
+        c_list.push(tarland);
+        c_list.push(minmax);
+        c_list.push(error);
+
         group_json.spec = spec_list;
         group_json.cost = cost_list;
+        group_json.c = c_list;
+
         console.log(group_json);
         $.ajax({
             type: "POST",
@@ -39,6 +52,13 @@ $(document).ready(function(){
             dataType: "json",
             success: function (message) {
                 console.log(message)
+                var data = []
+                var name = []
+                $.each(message, function(i, item){
+                    data.push(item[1])
+                    name.push(item[0])
+                });
+                ca(data,name);
             },
             error: function (message) {
                 console.log(message)
@@ -47,66 +67,67 @@ $(document).ready(function(){
     })
 });
 
+function ca(data,name){
+
 var ctx = document.getElementById('myChart').getContext("2d");
+var gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
+gradientStroke.addColorStop(0, '#00d8c0');
+gradientStroke.addColorStop(1, '#ff6a72');
 
-        var gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
-        gradientStroke.addColorStop(0, '#00d8c0');
-        gradientStroke.addColorStop(1, '#ff6a72');
+var gradientFill = ctx.createLinearGradient(500, 0, 100, 0);
+gradientFill.addColorStop(0, "rgba(0, 216, 192, 0.10)");
+gradientFill.addColorStop(1, "rgba(255, 106, 114, 0.10)");
 
-        var gradientFill = ctx.createLinearGradient(500, 0, 100, 0);
-        gradientFill.addColorStop(0, "rgba(0, 216, 192, 0.10)");
-        gradientFill.addColorStop(1, "rgba(255, 106, 114, 0.10)");
-
-        var myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL"],
-                datasets: [{
-                    label: "Data",
-                    borderColor: gradientStroke,
-                    pointBorderColor: gradientStroke,
-                    pointBackgroundColor: gradientStroke,
-                    pointHoverBackgroundColor: gradientStroke,
-                    pointHoverBorderColor: gradientStroke,
-                    pointBorderWidth: 2,
-                    pointHoverRadius: 2,
-                    pointHoverBorderWidth: 1,
-                    pointRadius: 3,
-                    fill: true,
-                    backgroundColor: gradientFill,
-                    borderWidth: 2,
-                    data: [50, 150, 200, 270, 320, 470, 500]
-                }]
-            },
-            options: {
-                legend: {
-                    position: "bottom"
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: name,
+        datasets: [{
+            label: "Data",
+            borderColor: gradientStroke,
+            pointBorderColor: gradientStroke,
+            pointBackgroundColor: gradientStroke,
+            pointHoverBackgroundColor: gradientStroke,
+            pointHoverBorderColor: gradientStroke,
+            pointBorderWidth: 2,
+            pointHoverRadius: 2,
+            pointHoverBorderWidth: 1,
+            pointRadius: 3,
+            fill: true,
+            backgroundColor: gradientFill,
+            borderWidth: 2,
+            data: data
+        }]
+    },
+    options: {
+        legend: {
+            position: "bottom"
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    fontColor: "grey",
+                    fontStyle: "bold",
+                    beginAtZero: true,
+                    maxTicksLimit: 5,
+                    padding: 20
                 },
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            fontColor: "grey",
-                            fontStyle: "bold",
-                            beginAtZero: true,
-                            maxTicksLimit: 5,
-                            padding: 20
-                        },
-                        gridLines: {
-                            drawTicks: false,
-                            display: false
-                        }
-
-                    }],
-                    xAxes: [{
-                        gridLines: {
-                            zeroLineColor: "transparent"
-                        },
-                        ticks: {
-                            padding: 20,
-                            fontColor: "grey",
-                            fontStyle: "bold"
-                        }
-                    }]
+                gridLines: {
+                    drawTicks: false,
+                    display: false
                 }
-            }
-        });
+            }],
+            xAxes: [{
+                gridLines: {
+                    zeroLineColor: "transparent"
+                },
+                ticks: {
+                    padding: 20,
+                    fontColor: "grey",
+                    fontStyle: "bold"
+                }
+            }]
+        }
+    }
+});
+}
